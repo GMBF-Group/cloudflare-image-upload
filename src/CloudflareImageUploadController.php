@@ -3,8 +3,9 @@
 namespace Gmbf\CloudflareImageUpload;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class CloudflareImageUploadController extends Controller
 {
