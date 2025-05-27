@@ -1,5 +1,5 @@
 {
-    "name": "gmbf/cloudflare-image-upload",
+    "name": "gmbf-package/cloudflare-image-upload",
     "description": "Provides an easy-to-use interface to upload and manage images on Cloudflare from Laravel applications.",
     "type": "library",
     "license": "MIT",
