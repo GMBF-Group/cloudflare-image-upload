@@ -3,6 +3,21 @@
 This Laravel package provides a simple and reusable interface for uploading, retrieving, and deleting images on **Cloudflare Images**.  
 It is intended for use in Laravel applications to handle image storage through the Cloudflare Images API.
 
+A reusable Laravel package to easily **upload, retrieve, and delete images** on **Cloudflare Images**.  
+Supports Laravel 5.x → 12.x and PHP 7.0 → 8.4. Works with **both request files (UploadedFile)** and **storage file paths**.
+
+---
+
+## Features
+
+- Upload images directly from request or local storage
+- Get image details from Cloudflare
+- Delete images from Cloudflare
+- Ready-to-use Facade and ServiceProvider
+- Configurable via `config/cloudflare-image.php`
+- Laravel projects reuse-ready
+- Clean, maintainable architecture
+
 ---
 
 ## 📦 Installation
@@ -10,21 +25,22 @@ It is intended for use in Laravel applications to handle image storage through t
 1. Require the package via Composer:
 
 ```bash
-composer require gmbf/cloudflare-image-upload
+composer require gmbf-package/cloudflare-image-upload
 ```
 
 2. (Optional for Laravel <5.5) Add the service provider manually in `config/app.php`:
 
 ```php
 'providers' => [
-    Gmbf\CloudflareImageUpload\CloudflareImageUploadServiceProvider::class,
+    Gmbf\CloudflareImageUpload\CloudflareImageServiceProvider::class,
 ],
 ```
 
 3. Publish the config file:
 
 ```bash
-php artisan vendor:publish --tag=config
+php artisan vendor:publish --provider="Gmbf\CloudflareImageUpload\CloudflareImageServiceProvider" --tag="config"
+
 ```
 
 ---
@@ -41,7 +57,7 @@ CLOUDFLARE_IMAGES_DELIVERY_URL=https://your-delivery-url.com
 CLOUDFLARE_IMAGES_DEFAULT_VARIATION=your-variant-name
 ```
 
-After publishing, you can customize the settings in `config/cloudflareImage.php`.
+After publishing, you can customize the settings in `config/cloudflare-image.php`.
 
 ---
 
@@ -49,50 +65,52 @@ After publishing, you can customize the settings in `config/cloudflareImage.php`
 
 ### Upload an image to Cloudflare
 
-`POST /cloudflare/upload`
+```
+use Gmbf\CloudflareImageUpload\Facades\CloudflareImage;
 
-- **Form field**: `image` (type: `file`)
-- **Response**: JSON response from Cloudflare with image details
+// From request
+CloudflareImage::upload(request()->file('image'));
 
-### Get a Cloudflare image
-
-`GET /cloudflare/image/{id}`
-
-- Replace `{id}` with the Cloudflare image ID
-- Returns the first image variant URL in JSON format
-
-### Delete an image from Cloudflare
-
-`DELETE /cloudflare/delete/{id}`
-
-- Replace `{id}` with the Cloudflare image ID
-- Returns a success/failure response
+// From storage path
+CloudflareImage::upload(storage_path('app/public/example.jpg'));
+```
 
 ---
 
-## 🗂️ Routes
+### Get image details
 
-| Method | Endpoint                | Controller Method          |
-| ------ | ----------------------- | -------------------------- |
-| POST   | /cloudflare/upload      | `uploadToCloudflare()`     |
-| GET    | /cloudflare/image/{id}  | `getImageFromCloudflare()` |
-| DELETE | /cloudflare/delete/{id} | `deleteFromCloudflare()`   |
+```
+CloudflareImage::get('image_id');
+```
+
+---
+
+### Delete an image from Cloudflare
+
+```
+CloudflareImage::delete('image_id');
+```
 
 ---
 
 ## 🛠️ Folder Structure
 
 ```
-gmbf/cloudflare-image-upload/
-├── config/
-│   └── cloudflareImage.php
-├── src/
-│   ├── MyPackageController.php
-│   ├── MyPackageProvider.php
-│   ├── routes.php
-├── .gitignore
+gmbf-package/cloudflare-image-upload/
 ├── composer.json
+├── config/
+│   └── cloudflare-image.php
+├── src/
+│   ├── CloudflareImageServiceProvider.php
+│   ├── CloudflareImageService.php
+│   ├── Facades/
+│   │   └── CloudflareImage.php
+│   └── Exceptions/
+│       └── CloudflareException.php
+├── tests/
+│   └── CloudflareImageTest.php
 ├── README.md
+└── LICENSE
 ```
 
 ---
