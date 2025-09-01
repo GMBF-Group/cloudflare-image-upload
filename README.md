@@ -39,7 +39,7 @@ composer require gmbf-package/cloudflare-image-upload
 3. Publish the config file:
 
 ```bash
-php artisan vendor:publish --provider="Gmbf\CloudflareImageUpload\CloudflareImageServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Gmbf\CloudflareImageUpload\CloudflareImageServiceProvider" --tag="cloudflare-image-config"
 
 ```
 

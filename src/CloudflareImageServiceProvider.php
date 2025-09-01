@@ -29,6 +29,6 @@ class CloudflareImageServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/cloudflare-image.php' => config_path('cloudflare-image.php'),
-        ], 'config');
+        ], 'cloudflare-image-config');
     }
 }
